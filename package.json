@@ -1,0 +1,40 @@
+{
+  "name": "combine-async-iterators",
+  "version": "1.0.0",
+  "description": "Combine Multiple Asynchronous Iterators in one (not a sequence)",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "engines": {
+      "node": ">=11"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fraxken/combine-async-iterators.git"
+  },
+  "files": [
+    "index.d.ts"
+  ],
+  "keywords": [
+      "async",
+      "asynchronous",
+      "iterator",
+      "iterable",
+      "combine",
+      "merge",
+      "sequence"
+  ],
+  "author": "GENTILHOMME Thomas <gentilhomme.thomas@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fraxken/combine-async-iterators/issues"
+  },
+  "homepage": "https://github.com/fraxken/combine-async-iterators#readme",
+  "devDependencies": {
+    "@slimio/eslint-config": "^3.0.2",
+    "@slimio/is": "^1.5.1",
+    "@types/node": "^12.6.8",
+    "japa": "^2.0.10"
+  }
+}
