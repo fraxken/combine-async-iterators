@@ -18,21 +18,34 @@ function getNextAsyncIteratorValue(iterator, index) {
     });
 }
 
+/**
+ * @async
+ * @generator
+ * @function combineAsyncIterators
+ * @param {...AsyncIterableIterator<any>} iterators
+ */
 async function* combineAsyncIterators(...iterators) {
-    let open = iterators.length;
-    const promises = iterators.map(getNextAsyncIteratorValue);
+    try {
+        const promises = iterators.map(getNextAsyncIteratorValue);
+        let open = iterators.length;
 
-    do {
-        const { value, index } = await Promise.race(promises);
-        if (value.done) {
-            open--;
-            promises[index] = new Promise(() => null);
-        }
-        else {
-            yield value.value;
-            promises[index] = getNextAsyncIteratorValue(iterators[index], index);
-        }
-    } while (open > 0);
+        do {
+            const { value, index } = await Promise.race(promises);
+            if (value.done) {
+                open--;
+                promises[index] = new Promise(() => null);
+            }
+            else {
+                yield value.value;
+                promises[index] = getNextAsyncIteratorValue(iterators[index], index);
+            }
+        } while (open > 0);
+    }
+    catch (err) {
+        await Promise.all(iterators.map((it) => it.return()));
+
+        throw err;
+    }
 }
 
 module.exports = combineAsyncIterators;

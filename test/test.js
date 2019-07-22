@@ -8,7 +8,7 @@ const is = require("@slimio/is");
 const combineAsyncIterators = require("../");
 
 // CONSTANTS
-const FIX = ["first_0", "first_1", "first_2", "second_0", "second_1", "second_2"];
+const FIX = ["first_0", "first_1", "first_2", "second_0", "second_1", "second_2"].sort();
 
 // Function for tests
 async function* getValues(id) {
@@ -17,6 +17,10 @@ async function* getValues(id) {
         await new Promise((resolve) => setTimeout(resolve, ms));
         yield `${id}_${count}`;
     }
+}
+
+async function* getThrow(id) {
+    throw new Error("oh no!");
 }
 
 test("all values must be retrieved (but not in sequence)", async(assert) => {
@@ -30,8 +34,27 @@ test("all values must be retrieved (but not in sequence)", async(assert) => {
     }
 
     assert.isTrue(retrievedValues.length === 6, "We must retrieve 6 values");
-    assert.deepEqual(retrievedValues, FIX);
     const sorted = retrievedValues.slice(0).sort();
+    assert.strictEqual(sorted.toString(), FIX.toString());
     assert.notStrictEqual(retrievedValues.toString(), sorted.toString());
-
 }).timeout(10000);
+
+test("combineAsyncIterators must close all iterators when it throw", async(assert) => {
+    assert.plan(2);
+    const first = getThrow("first");
+    const second = getThrow("second");
+
+    try {
+        for await (const value of combineAsyncIterators(first, second)) {
+            // Do nothing (it throw).
+        }
+    }
+    catch (err) {
+        assert.strictEqual(err.message, "oh no!");
+        const result = await Promise.all([
+            first.next(), second.next()
+        ]);
+
+        assert.isTrue(result.every((row) => row.done === true));
+    }
+});
