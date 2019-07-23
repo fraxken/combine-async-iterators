@@ -26,6 +26,9 @@ function getNextAsyncIteratorValue(iterator, index) {
  */
 async function* combineAsyncIterators(...iterators) {
     try {
+        if (iterators.length === 0) {
+            return;
+        }
         const promises = iterators.map(getNextAsyncIteratorValue);
         let open = iterators.length;
 
