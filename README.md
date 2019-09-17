@@ -22,12 +22,14 @@ $ yarn add combine-async-iterators
 
 ## Usage example
 ```js
+const { promisify } = require("util");
 const combineAsyncIterators = require("combine-async-iterators");
+
+const sleep = promisify(setTimeout);
 
 async function* getValues(id) {
     for (let count = 0; count < 5; count++) {
-        const ms = Math.ceil(Math.random() * 1000);
-        await new Promise((resolve) => setTimeout(resolve, ms));
+        await sleep(Math.ceil(Math.random() * 1000));
         yield `${id}_${count}`;
     }
 }
