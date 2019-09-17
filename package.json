@@ -20,9 +20,13 @@
     "async",
     "asynchronous",
     "iterator",
+    "iterators",
+    "iteration",
     "iterable",
     "combine",
     "merge",
+    "build",
+    "construct",
     "sequence"
   ],
   "author": "GENTILHOMME Thomas <gentilhomme.thomas@gmail.com>",
