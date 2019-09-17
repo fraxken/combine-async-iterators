@@ -7,6 +7,8 @@
 
 Combine Multiple Asynchronous Iterators in one (not a sequence). It use **Promise.race** under the hood (the code idea is from [Targos](http://github.com/targos)).
 
+> ⚠️ This package was mainly built to work with native Asynchronous Generators (Iterators).
+
 ## Requirements
 - [Node.js](https://nodejs.org/en/) version 11 or higher
 
