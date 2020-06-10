@@ -1,13 +1,15 @@
 "use strict";
 
 function getNextAsyncIteratorFactory(options) {
-    return async(asyncIterator, index) => {
+    return async (asyncIterator, index) => {
         try {
             const iterator = await asyncIterator.next();
 
-            return { index, iterator };
-        }
-        catch (err) {
+            return {
+                index,
+                iterator
+            };
+        } catch (err) {
             if (options.errorCallback) {
                 options.errorCallback(err);
             }
@@ -30,25 +32,26 @@ async function* combineAsyncIterators(...iterators) {
 
     if (typeof options.next === "function") {
         options = {};
-    }
-    else {
+    } else {
         iterators.shift();
     }
     // Return if iterators is empty (avoid infinite loop).
     if (iterators.length === 0) {
         return;
     }
-    const promiseThatNeverResolve = new Promise(() => null);
     const getNextAsyncIteratorValue = getNextAsyncIteratorFactory(options);
 
 
     try {
-        const asyncIteratorsValues = iterators.map(getNextAsyncIteratorValue);
+        const asyncIteratorsValues = new Map();
+        iterators.forEach((it, idx) => asyncIteratorsValues
+            .set(idx, getNextAsyncIteratorValue(it, idx))
+        );
         let numberOfIteratorsAlive = iterators.length;
 
         do {
             const response = await Promise.race(
-                asyncIteratorsValues
+                Array.from(asyncIteratorsValues.values())
             );
             if (response) {
                 const {
@@ -57,16 +60,14 @@ async function* combineAsyncIterators(...iterators) {
                 } = response;
                 if (iterator.done) {
                     numberOfIteratorsAlive--;
-                    asyncIteratorsValues[index] = promiseThatNeverResolve;
-                }
-                else {
+                    asyncIteratorsValues.delete(index);
+                } else {
                     yield iterator.value;
-                    asyncIteratorsValues[index] = getNextAsyncIteratorValue(iterators[index], index);
+                    asyncIteratorsValues.set(index, getNextAsyncIteratorValue(iterators[index], index));
                 }
             }
         } while (numberOfIteratorsAlive > 0);
-    }
-    catch (err) {
+    } catch (err) {
         // TODO: replace .all with .allSettled
         await Promise.all(iterators.map((it) => it.return()));
 
