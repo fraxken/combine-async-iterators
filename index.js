@@ -1,7 +1,7 @@
 "use strict";
 
 function getNextAsyncIteratorFactory(options) {
-    return async (asyncIterator, index) => {
+    return async(asyncIterator, index) => {
         try {
             const iterator = await asyncIterator.next();
 
@@ -9,9 +9,10 @@ function getNextAsyncIteratorFactory(options) {
                 index,
                 iterator
             };
-        } catch (err) {
+        }
+        catch (err) {
             if (options.errorCallback) {
-                options.errorCallback(err);
+                options.errorCallback(err, index);
             }
             if (options.throwError !== false) {
                 return Promise.reject(err);
@@ -32,7 +33,8 @@ async function* combineAsyncIterators(...iterators) {
 
     if (typeof options.next === "function") {
         options = {};
-    } else {
+    }
+    else {
         iterators.shift();
     }
     // Return if iterators is empty (avoid infinite loop).
@@ -61,13 +63,15 @@ async function* combineAsyncIterators(...iterators) {
                 if (iterator.done) {
                     numberOfIteratorsAlive--;
                     asyncIteratorsValues.delete(index);
-                } else {
+                }
+                else {
                     yield iterator.value;
                     asyncIteratorsValues.set(index, getNextAsyncIteratorValue(iterators[index], index));
                 }
             }
         } while (numberOfIteratorsAlive > 0);
-    } catch (err) {
+    }
+    catch (err) {
         // TODO: replace .all with .allSettled
         await Promise.all(iterators.map((it) => it.return()));
 

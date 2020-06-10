@@ -5,7 +5,7 @@ declare function combineAsyncIterators(
 declare namespace combineAsyncIterators {
     interface CombineOptions {
         throwError?: boolean;
-        errorCallback?: (err: Error) => any;
+        errorCallback?: (err: Error, index: number) => any;
     }
 }
 
