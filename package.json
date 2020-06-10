@@ -39,6 +39,7 @@
     "@slimio/eslint-config": "^3.0.3",
     "@slimio/is": "^1.5.1",
     "@types/node": "^12.6.8",
-    "japa": "^3.0.1"
+    "japa": "^3.0.1",
+    "sinon": "^9.0.2"
   }
 }
