@@ -45,29 +45,25 @@ async function* combineAsyncIterators(...iterators) {
 
 
     try {
-        const asyncIteratorsValues = new Map();
-        iterators.forEach((it, idx) => asyncIteratorsValues
-            .set(idx, getNextAsyncIteratorValue(it, idx))
+        const asyncIteratorsValues = new Map(
+            iterators.map((it, idx) => [idx, getNextAsyncIteratorValue(it, idx)])
         );
         let numberOfIteratorsAlive = iterators.length;
 
         do {
-            const response = await Promise.race(
+            const {
+                iterator,
+                index
+            } = await Promise.race(
                 Array.from(asyncIteratorsValues.values())
             );
-            if (response) {
-                const {
-                    iterator,
-                    index
-                } = response;
-                if (iterator.done) {
-                    numberOfIteratorsAlive--;
-                    asyncIteratorsValues.delete(index);
-                }
-                else {
-                    yield iterator.value;
-                    asyncIteratorsValues.set(index, getNextAsyncIteratorValue(iterators[index], index));
-                }
+            if (iterator.done) {
+                numberOfIteratorsAlive--;
+                asyncIteratorsValues.delete(index);
+            }
+            else {
+                yield iterator.value;
+                asyncIteratorsValues.set(index, getNextAsyncIteratorValue(iterators[index], index));
             }
         } while (numberOfIteratorsAlive > 0);
     }
