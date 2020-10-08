@@ -5,10 +5,7 @@ function getNextAsyncIteratorFactory(options) {
         try {
             const iterator = await asyncIterator.next();
 
-            return {
-                index,
-                iterator
-            };
+            return { index, iterator };
         }
         catch (err) {
             if (options.errorCallback) {
@@ -18,12 +15,7 @@ function getNextAsyncIteratorFactory(options) {
                 return Promise.reject(err);
             }
 
-            return {
-                index,
-                iterator: {
-                    done: true
-                }
-            };
+            return { index, iterator: { done: true } };
         }
     };
 }
