@@ -45,6 +45,20 @@ async function main() {
 main().catch(console.error);
 ```
 
+**Since 2.0.0** it is also possible to recover errors through a callback. By default the method is stopped when an error is thrown (the `throwError` parameter allow to disable this behaviour).
+
+```js
+function errorCallback(err) {
+    console.error("got you:", err);
+}
+
+const iteratorOptions = { errorCallback, throwError: false };
+const asyncIterator = combineAsyncIterators(iteratorOptions, getValues("first"), getValues("second"));
+for await (const value of asyncIterator) {
+    console.log(value);
+}
+```
+
 ## API
 
 ```ts
