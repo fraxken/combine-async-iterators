@@ -30,48 +30,36 @@ function getNextAsyncIteratorFactory(options) {
 
 async function* combineAsyncIterators(...iterators) {
     let [options] = iterators;
-
     if (typeof options.next === "function") {
-        options = {};
+        options = Object.create(null);
     }
     else {
         iterators.shift();
     }
+
     // Return if iterators is empty (avoid infinite loop).
     if (iterators.length === 0) {
         return;
     }
     const getNextAsyncIteratorValue = getNextAsyncIteratorFactory(options);
 
-
     try {
-        const asyncIteratorsValues = new Map(
-            iterators.map((it, idx) => [idx, getNextAsyncIteratorValue(it, idx)])
-        );
-        let numberOfIteratorsAlive = iterators.length;
+        const asyncIteratorsValues = new Map(iterators.map((it, idx) => [idx, getNextAsyncIteratorValue(it, idx)]));
 
         do {
-            const {
-                iterator,
-                index
-            } = await Promise.race(
-                Array.from(asyncIteratorsValues.values())
-            );
+            const { iterator, index } = await Promise.race(asyncIteratorsValues.values());
             if (iterator.done) {
-                numberOfIteratorsAlive--;
                 asyncIteratorsValues.delete(index);
             }
             else {
                 yield iterator.value;
                 asyncIteratorsValues.set(index, getNextAsyncIteratorValue(iterators[index], index));
             }
-        } while (numberOfIteratorsAlive > 0);
+        } while (asyncIteratorsValues.size > 0);
     }
-    catch (err) {
+    finally {
         // TODO: replace .all with .allSettled
         await Promise.all(iterators.map((it) => it.return()));
-
-        throw err;
     }
 }
 

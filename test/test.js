@@ -69,10 +69,11 @@ test("combineAsyncIterators must return all values of each stream that does not 
     const errorCallback = stub();
 
     const retrievedValues = [];
-    for await (const value of combineAsyncIterators({
+    const iteratorOptions = {
         throwError: false,
         errorCallback
-    }, first, second)) {
+    };
+    for await (const value of combineAsyncIterators(iteratorOptions, first, second)) {
         assert.isTrue(is.string(value));
         retrievedValues.push(value);
     }
