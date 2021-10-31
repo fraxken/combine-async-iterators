@@ -10,7 +10,7 @@ Combine Multiple Asynchronous Iterators in one (not a sequence). It use **Promis
 > ⚠️ This package was mainly built to work with native Asynchronous Generators (Iterators).
 
 ## Requirements
-- [Node.js](https://nodejs.org/en/) version 11 or higher
+- [Node.js](https://nodejs.org/en/) version 12 or higher
 
 ## Getting Started
 
@@ -37,7 +37,7 @@ async function* getValues(id) {
 }
 
 async function main() {
-    const asyncIterator = combineAsyncIterators(getValues("first"), getValues("second"));
+    const asyncIterator = combineAsyncIterators({}, getValues("first"), getValues("second"));
     for await (const value of asyncIterator) {
         console.log(value);
     }
