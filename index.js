@@ -51,7 +51,7 @@ async function* combineAsyncIterators(...iterators) {
     }
     finally {
         // TODO: replace .all with .allSettled
-        await Promise.all(iterators.map((it) => it.return()));
+        await Promise.all(iterators.flatMap((it) => (it.return ? [it.return()] : [])));
     }
 }
 
