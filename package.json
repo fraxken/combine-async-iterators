@@ -4,7 +4,8 @@
     "description": "Combine Multiple Asynchronous Iterators in one (not a sequence)",
     "main": "index.js",
     "scripts": {
-        "test": "node --test ./test"
+        "test-only": "node --test ./test",
+        "test": "c8 --all -r html npm run test-only"
     },
     "engines": {
         "node": ">=16"
@@ -38,6 +39,7 @@
     "devDependencies": {
         "@matteo.collina/tspl": "^0.1.0",
         "@nodesecure/eslint-config": "^1.8.0",
-        "@types/node": "^20.6.0"
+        "@types/node": "^20.6.0",
+        "c8": "^8.0.1"
     }
 }

@@ -62,6 +62,15 @@ test("all values must be retrieved (but not in sequence)", async() => {
   assert.notStrictEqual(retrievedValues.toString(), sorted.toString());
 });
 
+test("should return if there is nothing to iterate", async() => {
+  const retrievedValues = [];
+  for await (const value of combineAsyncIterators()) {
+    retrievedValues.push(value);
+  }
+
+  assert.equal(retrievedValues.length, 0);
+});
+
 test("combineAsyncIterators must close all iterators when it throw", async(t) => {
   const { strictEqual } = tspl(t, { plan: 2 });
   const first = getThrow("first");

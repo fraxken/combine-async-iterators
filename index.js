@@ -20,7 +20,7 @@ function getNextAsyncIteratorFactory(options) {
 
 async function* combineAsyncIterators(...iterators) {
   let [options] = iterators;
-  if (typeof options.next === "function") {
+  if (options && typeof options.next === "function") {
     options = Object.create(null);
   }
   else {
