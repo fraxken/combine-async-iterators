@@ -82,7 +82,7 @@ export = combineAsyncIterators;
 ## Contributors ✨
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -95,6 +95,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/fraxken"><img src="https://avatars.githubusercontent.com/u/4438263?v=4?s=100" width="100px;" alt="Thomas.G"/><br /><sub><b>Thomas.G</b></sub></a><br /><a href="https://github.com/fraxken/combine-async-iterators/commits?author=fraxken" title="Code">💻</a> <a href="https://github.com/fraxken/combine-async-iterators/issues?q=author%3Afraxken" title="Bug reports">🐛</a> <a href="#security-fraxken" title="Security">🛡️</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Farenheith"><img src="https://avatars.githubusercontent.com/u/5713887?v=4?s=100" width="100px;" alt="Thiago Oliveira Santos"/><br /><sub><b>Thiago Oliveira Santos</b></sub></a><br /><a href="https://github.com/fraxken/combine-async-iterators/commits?author=Farenheith" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://leozhang.me"><img src="https://avatars.githubusercontent.com/u/2092654?v=4?s=100" width="100px;" alt="Leo Zhang"/><br /><sub><b>Leo Zhang</b></sub></a><br /><a href="https://github.com/fraxken/combine-async-iterators/issues?q=author%3Aelldritch" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>
