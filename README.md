@@ -6,10 +6,11 @@
 
 Combine Multiple Asynchronous Iterators in one (not a sequence). It use **Promise.race** under the hood (the code idea is from [Targos](http://github.com/targos)).
 
-> ⚠️ This package was mainly built to work with native Asynchronous Generators (Iterators).
+> [!IMPORTANT]
+> This package was mainly built to work with native Asynchronous Generators (Iterators).
 
 ## Requirements
-- [Node.js](https://nodejs.org/en/) version 12 or higher
+- [Node.js](https://nodejs.org/en/) version 16 or higher
 
 ## Getting Started
 
@@ -23,14 +24,12 @@ $ yarn add combine-async-iterators
 
 ## Usage example
 ```js
-const { promisify } = require("util");
+const timers = require("node:times/promises");
 const combineAsyncIterators = require("combine-async-iterators");
-
-const sleep = promisify(setTimeout);
 
 async function* getValues(id) {
     for (let count = 0; count < 5; count++) {
-        await sleep(Math.ceil(Math.random() * 1000));
+        await timers.setTimeout(Math.ceil(Math.random() * 1000));
         yield `${id}_${count}`;
     }
 }

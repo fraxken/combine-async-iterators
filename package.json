@@ -4,10 +4,10 @@
     "description": "Combine Multiple Asynchronous Iterators in one (not a sequence)",
     "main": "index.js",
     "scripts": {
-        "test": "node test/test.js"
+        "test": "node --test ./test"
     },
     "engines": {
-        "node": ">=12"
+        "node": ">=16"
     },
     "repository": {
         "type": "git",
@@ -36,10 +36,8 @@
     },
     "homepage": "https://github.com/fraxken/combine-async-iterators#readme",
     "devDependencies": {
-        "@slimio/eslint-config": "^4.1.0",
-        "@slimio/is": "^1.5.1",
-        "@types/node": "^16.11.6",
-        "japa": "^4.0.0",
-        "sinon": "^11.1.2"
+        "@matteo.collina/tspl": "^0.1.0",
+        "@nodesecure/eslint-config": "^1.8.0",
+        "@types/node": "^20.6.0"
     }
 }
