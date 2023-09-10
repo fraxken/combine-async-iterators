@@ -27,6 +27,23 @@ async function* getThrow(id) {
     throw new Error("oh no!");
 }
 
+function getMinimumAsyncIterable(id) {
+    const max = 3;
+    let i = 0;
+    return {
+        next() {
+            if (i >= max) {
+                return { done: true };
+            } else {
+                return { value: `${id}_${i++}` };
+            }
+        },
+        [Symbol.asyncIterator]() {
+            return this;
+        }
+    };
+};
+
 test("all values must be retrieved (but not in sequence)", async(assert) => {
     const first = getValues("first");
     const second = getValues("second");
@@ -60,6 +77,15 @@ test("combineAsyncIterators must close all iterators when it throw", async(asser
         ]);
 
         assert.isTrue(result.every((row) => row.done === true));
+    }
+});
+
+test("combineAsyncIterators must not throw if iterator lacks optional properties", async(assert) => {
+    const first = getMinimumAsyncIterable("first");
+    const second = getMinimumAsyncIterable("second");
+
+    for await (const value of combineAsyncIterators(first, second)) {
+        // Run iterators until completion. They should not throw.
     }
 });
 
