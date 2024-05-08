@@ -1,7 +1,3 @@
-declare function combineAsyncIterators(
-    ...iterators: AsyncIterableIterator<any>[]
-): AsyncIterableIterator<any>;
-
 declare namespace combineAsyncIterators {
     interface CombineOptions {
         throwError?: boolean;
@@ -9,9 +5,13 @@ declare namespace combineAsyncIterators {
     }
 }
 
-declare function combineAsyncIterators(
+declare function combineAsyncIterators<T = any>(
+  ...iterators: AsyncIterableIterator<T>[]
+): AsyncIterableIterator<T>;
+
+declare function combineAsyncIterators<T = any>(
     options: combineAsyncIterators.CombineOptions,
-    ...iterators: AsyncIterableIterator<any>[]
-): AsyncIterableIterator<any>;
+    ...iterators: AsyncIterableIterator<T>[]
+): AsyncIterableIterator<T>;
 
 export = combineAsyncIterators;
