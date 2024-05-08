@@ -1,6 +1,6 @@
 {
     "name": "combine-async-iterators",
-    "version": "2.1.0",
+    "version": "3.0.0",
     "description": "Combine Multiple Asynchronous Iterators in one (not a sequence)",
     "main": "index.js",
     "scripts": {
