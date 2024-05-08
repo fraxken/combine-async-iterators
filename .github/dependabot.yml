@@ -1,11 +1,20 @@
 version: 2
 updates:
-  - package-ecosystem: github-actions
-    directory: /
+  - package-ecosystem: "npm"
+    directory: "/"
+    versioning-strategy: widen
     schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /
+      interval: "weekly"
+    groups:
+      dependencies:
+        dependency-type: "production"
+      development-dependencies:
+        dependency-type: "development"
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: daily
+      interval: "monthly"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
