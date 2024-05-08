@@ -8,7 +8,7 @@
         "test": "c8 --all -r html npm run test-only"
     },
     "engines": {
-        "node": ">=16"
+        "node": ">=20"
     },
     "repository": {
         "type": "git",
