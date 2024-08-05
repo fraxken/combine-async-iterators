@@ -39,7 +39,7 @@
     "devDependencies": {
         "@matteo.collina/tspl": "^0.1.0",
         "@nodesecure/eslint-config": "^1.8.0",
-        "@types/node": "^20.6.0",
-        "c8": "^9.1.0"
+        "@types/node": "^22.1.0",
+        "c8": "^10.1.2"
     }
 }
