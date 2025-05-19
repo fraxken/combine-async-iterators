@@ -1,9 +1,7 @@
 // Require Node.js Dependencies
 const { test, mock } = require("node:test");
+const timers = require("node:timers/promises");
 const assert = require("node:assert");
-
-// Require Third-party Dependencies
-const { tspl } = require("@matteo.collina/tspl");
 
 // Require Internal Dependencies
 const combineAsyncIterators = require("../index.js");
@@ -18,13 +16,13 @@ async function* getValues(id, throwOn) {
       throw new Error("oh no!");
     }
     const ms = Math.ceil(Math.random() * 1000);
-    await new Promise((resolve) => setTimeout(resolve, ms));
+    await timers.setTimeout(ms);
     yield `${id}_${count}`;
   }
 }
 
 // eslint-disable-next-line require-yield
-async function* getThrow(id) {
+async function* getThrow(_id) {
   throw new Error("oh no!");
 }
 
@@ -72,22 +70,23 @@ test("should return if there is nothing to iterate", async() => {
 });
 
 test("combineAsyncIterators must close all iterators when it throw", async(t) => {
-  const { strictEqual } = tspl(t, { plan: 2 });
+  t.plan(2);
+
   const first = getThrow("first");
   const second = getThrow("second");
 
   try {
-    for await (const value of combineAsyncIterators(first, second)) {
+    for await (const _value of combineAsyncIterators(first, second)) {
       // Do nothing (it throw).
     }
   }
   catch (err) {
-    strictEqual(err.message, "oh no!");
+    t.assert.strictEqual(err.message, "oh no!");
     const result = await Promise.all([
       first.next(), second.next()
     ]);
 
-    strictEqual(result.every((row) => row.done === true), true);
+    t.assert.strictEqual(result.every((row) => row.done === true), true);
   }
 });
 
@@ -95,7 +94,7 @@ test("combineAsyncIterators must not throw if iterator lacks optional properties
   const first = getMinimumAsyncIterable("first");
   const second = getMinimumAsyncIterable("second");
 
-  for await (const value of combineAsyncIterators(first, second)) {
+  for await (const _value of combineAsyncIterators(first, second)) {
     // Run iterators until completion. They should not throw.
   }
 });
@@ -117,7 +116,7 @@ test("combineAsyncIterators must return all values of each stream that does not 
 
   const call = errorCallback.mock.calls[0];
   assert.equal(call.arguments[0].message, "oh no!");
-  assert.equal(retrievedValues.length, 5, `We must retrieve 4 values`);
+  assert.equal(retrievedValues.length, 5, "We must retrieve 4 values");
   const sorted = retrievedValues.slice(0).sort();
   assert.equal(sorted.toString(), [
     "first_0",
