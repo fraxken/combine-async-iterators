@@ -37,7 +37,7 @@
     },
     "homepage": "https://github.com/fraxken/combine-async-iterators#readme",
     "devDependencies": {
-        "@openally/config.eslint": "^2.1.0",
-        "@types/node": "^25.0.2"
+        "@openally/config.eslint": "2.2.0",
+        "@types/node": "25.0.3"
     }
 }
